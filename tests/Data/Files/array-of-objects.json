@@ -1,0 +1,22 @@
+{
+  "addresses": [
+    {
+      "street": "Nice Street",
+      "number": 10,
+      "zip":  12345,
+      "city": "New York"
+    },
+    {
+      "street": "Another Nice Street",
+      "number": 20,
+      "zip":  54321,
+      "city": "Las Vegas"
+    },
+    {
+      "street": "Nice Avenue",
+      "number": 52,
+      "zip":  132465,
+      "city": "San Francisco"
+    }
+  ]
+}

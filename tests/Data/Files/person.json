@@ -1,0 +1,10 @@
+{
+  "name": "John Doe",
+  "emailAddress": "john.doe@email.com",
+  "address": {
+    "street": "Nice Street",
+    "number": 10,
+    "zip":  12345,
+    "city": "New York"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "equals": "foo",
+  "required": "bar",
+  "isArray": ["foo", "bar"],
+  "customPropertyName": "hello"
+}

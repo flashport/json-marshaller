@@ -1,0 +1,6 @@
+{
+  "integers": [10, 20, 30, 40, 50],
+  "floats": [1.1, 2.2, 3.3, 4.4, 5.5],
+  "booleans": [true, false, true, false, true],
+  "strings": ["foo", "bar", "baz", "qux", "qua"]
+}

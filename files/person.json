@@ -1,0 +1,23 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "nickname": "johnjohn",
+  "emailAddress": "john.doe@email.com",
+  "age": 30,
+  "addresses": [
+    {
+      "street": "Central Street",
+      "number": 10,
+      "zip": 12345,
+      "city": "New York"
+    }
+  ],
+  "job": {
+    "name": "Json Converter",
+    "salary": "1000.50"
+  },
+  "luckyIntegers" : [10, 20, 30, 40, 50],
+  "luckyFloats"   : [1.1, 2.2, 3.3, 4.4, 5.5],
+  "luckyBooleans" : [true, false, true, false, true],
+  "luckyStrings" : ["foo", "bar", "baz", "qux", "quux"]
+}

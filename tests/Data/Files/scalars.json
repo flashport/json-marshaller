@@ -1,0 +1,6 @@
+{
+  "integer": 10,
+  "float": 1.1,
+  "boolean": true,
+  "string": "Hello World"
+}

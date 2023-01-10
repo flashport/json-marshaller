@@ -1,0 +1,33 @@
+{
+  "name": "flashport/json-marshaller",
+  "description": "A simple JSON Marshaller/Unmarshaller library.",
+  "license": [
+    "MIT"
+  ],
+  "authors": [
+    {
+      "name": "Flashport GmbH",
+      "email": "info@flasport.co",
+      "role": "Creator"
+    }
+  ],
+  "require": {
+    "php": ">=8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "JsonMarshaller\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit ./tests/"
+  }
+}
