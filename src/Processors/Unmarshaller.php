@@ -1,23 +1,19 @@
-<?php namespace JsonMarshaller;
+<?php namespace JsonMarshaller\Processors;
 
-use JsonMarshaller\Attributes\JsonPropertyType;
 use JsonMarshaller\Attributes\JsonProperty;
-use JsonMarshaller\Attributes\Validation\ValidationAttribute;
+use JsonMarshaller\Attributes\JsonPropertyType;
 use JsonMarshaller\Exceptions\MismatchingTypesException;
 use JsonMarshaller\Exceptions\MissingAttributeException;
 use JsonMarshaller\Exceptions\UnsupportedConversionException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Exceptions\ValueAssignmentException;
-use JsonMarshaller\Traits\GetsReflectedPropertyAttributes;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 use stdClass;
 
-class Unmarshaller
+class Unmarshaller extends BaseProcessor
 {
-
-    use GetsReflectedPropertyAttributes;
 
     /**
      * @param string $json
@@ -68,9 +64,13 @@ class Unmarshaller
 
         foreach ($properties as $reflectionProperty) {
 
+            if($this->shouldIgnoreProperty($reflectionProperty)){
+                continue;
+            }
+
             $value = $this->getPropertyValueFromRawObject($raw, $reflectionProperty);
 
-            $this->validateObjectProperty($reflectionProperty, $value);
+            $this->validateReflectedProperty($reflectionProperty, $value);
 
             $this->handleValueAssignment($reflectionProperty, $value, $ret);
         }
@@ -94,37 +94,6 @@ class Unmarshaller
 
         // If there is a JsonProperty attribute in the class, then we have to use its name instead of the class property original name
         return $raw->{$jsonProperty->getName()};
-    }
-
-    /**
-     * @param ReflectionProperty $reflectionProperty
-     * @param mixed $rawValue
-     * @return void
-     * @throws ValidationException
-     */
-    protected function validateObjectProperty(ReflectionProperty $reflectionProperty, mixed &$rawValue): void
-    {
-        $attributes = $reflectionProperty->getAttributes();
-
-        if (!count($attributes)) {
-            return;
-        }
-
-        foreach ($attributes as $attribute) {
-
-            $implements = class_implements($attribute->getName());
-            if (!isset($implements[ValidationAttribute::class])) {
-                continue;
-            }
-
-            /** @var ValidationAttribute $validationAttribute */
-            $validationAttribute = $attribute->newInstance();
-
-            if (!$validationAttribute->isValid($rawValue)) {
-                throw new ValidationException("Error while validating property {$reflectionProperty->getName()}. Fails at {$attribute->getName()}");
-            }
-
-        }
     }
 
     /**
@@ -208,7 +177,7 @@ class Unmarshaller
         $propertyType = $reflectionProperty->getType()?->getName();
 
         // If none, check from annotation
-        if(! $propertyType) {
+        if (!$propertyType) {
 
             /** @var JsonPropertyType|null $objectOfType */
             $objectOfType = $this->getReflectedPropertyAttribute($reflectionProperty, JsonPropertyType::class);

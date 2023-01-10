@@ -2,7 +2,8 @@
 
 namespace Tests\Data\Objects;
 
-class PersonWithoutTypedProperties{
+class PersonWithoutTypedProperties
+{
 
     public $name;
 

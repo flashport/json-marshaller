@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller\Exceptions;
 
-class ValidationException extends JsonMarshallerException {
+class ValidationException extends JsonMarshallerException
+{
 
 }

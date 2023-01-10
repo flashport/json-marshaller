@@ -1,6 +1,7 @@
 <?php namespace Tests\Data\Objects;
 
-class Scalars{
+class Scalars
+{
     public int $integer;
     public float $float;
     public bool $boolean;

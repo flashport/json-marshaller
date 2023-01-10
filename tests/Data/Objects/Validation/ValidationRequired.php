@@ -1,9 +1,10 @@
 <?php namespace Tests\Data\Objects\Validation;
 
-use JsonMarshaller\Attributes\Validation\Required;
+use JsonMarshaller\Attributes\Validation\JsonValidateRequired;
 
-class ValidationRequired{
+class ValidationRequired
+{
 
-    #[Required]
+    #[JsonValidateRequired]
     public string $required;
 }

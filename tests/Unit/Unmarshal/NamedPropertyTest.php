@@ -29,7 +29,7 @@ class NamedPropertyTest extends BaseTestCase
         $file = $this->getJsonFile("person.json");
 
         /** @var PersonWithNamedProperty $person */
-        $person = $this->JSON->unmarshal($file, PersonWithNamedProperty::class);
+        $person = $this->jsonMarshaller->unmarshal($file, PersonWithNamedProperty::class);
 
         // The property inside the json file is "emailAddress"
         $this->assertEquals("john.doe@email.com", $person->email);

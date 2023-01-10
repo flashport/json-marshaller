@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller\Exceptions;
 
-class MissingAttributeException extends JsonMarshallerException {
+class MissingAttributeException extends JsonMarshallerException
+{
 
 }

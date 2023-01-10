@@ -4,7 +4,8 @@ namespace Tests\Data\Objects;
 
 use JsonMarshaller\Attributes\JsonPropertyType;
 
-class PersonWithTypedAttribute{
+class PersonWithTypedAttribute
+{
 
     public $name;
 

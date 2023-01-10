@@ -29,7 +29,7 @@ class ScalarsTest extends BaseTestCase
         $file = $this->getJsonFile("scalars.json");
 
         /** @var Scalars $scalars */
-        $scalars = $this->JSON->unmarshal($file, Scalars::class);
+        $scalars = $this->jsonMarshaller->unmarshal($file, Scalars::class);
 
         $this->assertEquals(10, $scalars->integer);
         $this->assertEquals(1.1, $scalars->float);

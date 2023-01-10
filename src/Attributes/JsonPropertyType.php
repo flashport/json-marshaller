@@ -3,7 +3,8 @@
 use Attribute;
 
 #[Attribute]
-class JsonPropertyType{
+class JsonPropertyType
+{
 
 
     protected string $type;
@@ -24,7 +25,6 @@ class JsonPropertyType{
     {
         return $this->type;
     }
-
 
 
 }

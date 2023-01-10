@@ -16,11 +16,11 @@ class Person{
     public string $name;
     
     // It also supports validation attributes
-    #[Required]
+    #[JsonValidateRequired]
     public string $email;
     
     // Equals can be a single value or an array
-    #[Equals(["active", "inactive"])]
+    #[JsonValidateEquals(["active", "inactive"])]
     public string $status;
     
     // It is necessary to define the array type
@@ -42,14 +42,14 @@ class Person{
 
 Marshalling:
 ```php
-$json = new \JsonMarshaller\JSON();
+$json = new \JsonMarshaller\JsonMarshaller();
 $jsonString = $json->marshal($myObject);
 ```
 
 Unmarshalling:
 ```php
 
-$json = new \JsonMarshaller\JSON();
+$json = new \JsonMarshaller\JsonMarshaller();
 $person = $json->unmarshal($jsonString, Person::class)
 ```
 

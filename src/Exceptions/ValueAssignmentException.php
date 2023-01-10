@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller\Exceptions;
 
-class ValueAssignmentException extends JsonMarshallerException {
+class ValueAssignmentException extends JsonMarshallerException
+{
 
 }

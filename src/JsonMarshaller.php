@@ -1,14 +1,16 @@
 <?php namespace JsonMarshaller;
 
-use Exception;
 use JsonMarshaller\Exceptions\MismatchingTypesException;
 use JsonMarshaller\Exceptions\MissingAttributeException;
 use JsonMarshaller\Exceptions\UnsupportedConversionException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Exceptions\ValueAssignmentException;
+use JsonMarshaller\Processors\Marshaller;
+use JsonMarshaller\Processors\Unmarshaller;
 use ReflectionException;
 
-class JSON{
+class JsonMarshaller
+{
 
     protected Marshaller $marshaller;
 
@@ -24,8 +26,10 @@ class JSON{
     /**
      * @param object $object
      * @return string
+     * @throws ReflectionException
+     * @throws ValidationException
      */
-    public function marshal(object $object) : string
+    public function marshal(object $object): string
     {
         return $this->marshaller->marshal($object);
     }
@@ -41,7 +45,7 @@ class JSON{
      * @throws ReflectionException
      * @throws ValidationException
      */
-    public function unmarshal(string &$json, string $targetClass) : object|array
+    public function unmarshal(string &$json, string $targetClass): object|array
     {
         return $this->unmarshaller->unmarshal($json, $targetClass);
     }

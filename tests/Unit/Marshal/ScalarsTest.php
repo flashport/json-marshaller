@@ -2,12 +2,7 @@
 
 namespace Tests\Unit\Marshal;
 
-use Exception;
-use JsonMarshaller\Exceptions\MismatchingTypesException;
-use JsonMarshaller\Exceptions\MissingAttributeException;
-use JsonMarshaller\Exceptions\UnsupportedConversionException;
 use JsonMarshaller\Exceptions\ValidationException;
-use JsonMarshaller\Exceptions\ValueAssignmentException;
 use ReflectionException;
 use Tests\Data\Objects\Scalars;
 use Tests\Unit\BaseTestCase;
@@ -18,6 +13,8 @@ class ScalarsTest extends BaseTestCase
     /**
      * @test
      * @return void
+     * @throws ValidationException
+     * @throws ReflectionException
      */
     public function it_marshals_scalars(): void
     {
@@ -27,8 +24,10 @@ class ScalarsTest extends BaseTestCase
         $scalars->boolean = true;
         $scalars->string = "Hello World";
 
-        $json = $this->JSON->marshal($scalars);
+        $json = $this->jsonMarshaller->marshal($scalars);
 
-        $this->assertEquals("{\"integer\":10,\"float\":1.1,\"boolean\":true,\"string\":\"Hello World\"}", $json);
+        $file = json_encode(json_decode($this->getJsonFile("scalars.json")));
+
+        $this->assertEquals($file, $json);
     }
 }

@@ -3,7 +3,8 @@
 use Attribute;
 
 #[Attribute]
-class Equals implements ValidationAttribute {
+class JsonValidateEquals implements ValidationAttribute
+{
 
     protected array $compareTo;
 

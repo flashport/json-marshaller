@@ -1,12 +1,13 @@
 <?php namespace Tests\Data\Objects\Validation;
 
 use JsonMarshaller\Attributes\JsonPropertyType;
-use JsonMarshaller\Attributes\Validation\IsArray;
+use JsonMarshaller\Attributes\Validation\JsonValidateIsArray;
 use JsonMarshaller\Resources\ScalarTypes;
 
-class ValidationIsArray{
+class ValidationIsArray
+{
 
-    #[IsArray]
+    #[JsonValidateIsArray]
     #[JsonPropertyType(ScalarTypes::STRING)]
     public array $isArray;
 }

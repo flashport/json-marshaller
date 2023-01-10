@@ -1,9 +1,10 @@
 <?php namespace Tests\Data\Objects\Validation;
 
-use JsonMarshaller\Attributes\Validation\Equals;
+use JsonMarshaller\Attributes\Validation\JsonValidateEquals;
 
-class ValidationEquals{
+class ValidationEquals
+{
 
-    #[Equals("foo")]
+    #[JsonValidateEquals("foo")]
     public string $equals;
 }

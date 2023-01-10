@@ -29,7 +29,7 @@ class ArraysOfScalarsTest extends BaseTestCase
         $file = $this->getJsonFile("array-of-scalars.json");
 
         /** @var ArrayOfScalars $arrayOfScalars */
-        $arrayOfScalars = $this->JSON->unmarshal($file, ArrayOfScalars::class);
+        $arrayOfScalars = $this->jsonMarshaller->unmarshal($file, ArrayOfScalars::class);
 
         $this->assertEquals([10, 20, 30, 40, 50], $arrayOfScalars->integers);
         $this->assertEquals([1.1, 2.2, 3.3, 4.4, 5.5], $arrayOfScalars->floats);

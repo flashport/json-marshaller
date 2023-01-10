@@ -3,7 +3,8 @@
 use JsonMarshaller\Attributes\JsonPropertyType;
 use JsonMarshaller\Resources\ScalarTypes;
 
-class ArrayOfScalars{
+class ArrayOfScalars
+{
 
     #[JsonPropertyType(ScalarTypes::INTEGER)]
     public array $integers;

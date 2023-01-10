@@ -3,10 +3,11 @@
 use Attribute;
 
 #[Attribute]
-class Required implements ValidationAttribute {
+class JsonValidateRequired implements ValidationAttribute
+{
 
     public function isValid(mixed &$value): bool
     {
-        return ! empty($value);
+        return !empty($value);
     }
 }

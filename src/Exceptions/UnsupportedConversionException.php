@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller\Exceptions;
 
-class UnsupportedConversionException extends JsonMarshallerException {
+class UnsupportedConversionException extends JsonMarshallerException
+{
 
 }

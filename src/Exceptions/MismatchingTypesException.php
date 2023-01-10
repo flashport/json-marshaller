@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller\Exceptions;
 
-class MismatchingTypesException extends JsonMarshallerException {
+class MismatchingTypesException extends JsonMarshallerException
+{
 
 }

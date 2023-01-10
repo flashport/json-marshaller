@@ -2,7 +2,8 @@
 
 use JsonMarshaller\Attributes\JsonProperty;
 
-class PersonWithNamedProperty{
+class PersonWithNamedProperty
+{
 
     public string $name;
 

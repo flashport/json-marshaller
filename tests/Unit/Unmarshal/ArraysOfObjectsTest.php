@@ -30,12 +30,12 @@ class ArraysOfObjectsTest extends BaseTestCase
         $file = $this->getJsonFile("array-of-objects.json");
 
         /** @var ArrayOfObjects $arrayOfObjects */
-        $arrayOfObjects = $this->JSON->unmarshal($file, ArrayOfObjects::class);
+        $arrayOfObjects = $this->jsonMarshaller->unmarshal($file, ArrayOfObjects::class);
 
         $this->assertCount(3, $arrayOfObjects->addresses);
 
         /** @var Address $address */
-        foreach($arrayOfObjects->addresses as $address){
+        foreach ($arrayOfObjects->addresses as $address) {
             $this->assertEquals(Address::class, get_class($address));
 
             $this->assertNotEmpty($address->street);

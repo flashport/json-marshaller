@@ -1,6 +1,7 @@
 <?php namespace Tests\Data\Objects;
 
-class PersonWithoutSetter{
+class PersonWithoutSetter
+{
 
     protected string $name;
 

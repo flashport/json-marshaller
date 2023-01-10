@@ -3,7 +3,8 @@
 use JsonMarshaller\Attributes\JsonPropertyType;
 use JsonMarshaller\Resources\ScalarTypes;
 
-class ArrayOfObjects{
+class ArrayOfObjects
+{
 
     #[JsonPropertyType(Address::class)]
     public array $addresses;

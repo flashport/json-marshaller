@@ -1,6 +1,8 @@
 <?php namespace Tests\Data\Objects;
 
-class Person
+use JsonMarshaller\Attributes\JsonIgnore;
+
+class PersonWithIgnoredProperty
 {
 
     public string $name;
@@ -8,4 +10,7 @@ class Person
     public string $emailAddress;
 
     public Address $address;
+
+    #[JsonIgnore]
+    public string $gender;
 }

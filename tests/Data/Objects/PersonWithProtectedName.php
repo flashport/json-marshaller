@@ -1,6 +1,7 @@
 <?php namespace Tests\Data\Objects;
 
-class PersonWithProtectedName{
+class PersonWithProtectedName
+{
 
     protected string $name;
 
@@ -12,17 +13,17 @@ class PersonWithProtectedName{
      * @param string $name
      * @return void
      */
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
-        $this->name = "$name Modified";
+        $this->name = "$name Setter";
     }
 
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
-        return $this->name;
+        return "$this->name Getter";
     }
 
 }

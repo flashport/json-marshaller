@@ -20,12 +20,12 @@ class ValidationTest extends BaseTestCase
 
     protected string $validationSuccessFile;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->validationFailFile       = $this->getJsonFile("validation-fail.json");
-        $this->validationSuccessFile    = $this->getJsonFile("validation-success.json");
+        $this->validationFailFile = $this->getJsonFile("validation-fail.json");
+        $this->validationSuccessFile = $this->getJsonFile("validation-success.json");
     }
 
     /**
@@ -38,16 +38,13 @@ class ValidationTest extends BaseTestCase
      * @throws ReflectionException
      * @throws ValidationException
      */
-    public function it_validates_equals() : void
+    public function it_validates_equals(): void
     {
-        try {
-            $this->JSON->unmarshal($this->validationFailFile, ValidationEquals::class);
-            // Reaching here, it never failed to validate
-            $this->fail();
-        }catch (ValidationException){}
+        $this->expectException(ValidationException::class);
+        $this->jsonMarshaller->unmarshal($this->validationFailFile, ValidationEquals::class);
 
         /** @var ValidationEquals $validationSuccess */
-        $validationSuccess = $this->JSON->unmarshal($this->validationSuccessFile, ValidationEquals::class);
+        $validationSuccess = $this->jsonMarshaller->unmarshal($this->validationSuccessFile, ValidationEquals::class);
 
         $this->assertEquals("foo", $validationSuccess->equals);
     }
@@ -62,16 +59,13 @@ class ValidationTest extends BaseTestCase
      * @throws ReflectionException
      * @throws ValidationException
      */
-    public function it_validates_is_array() : void
+    public function it_validates_is_array(): void
     {
-        try {
-            $this->JSON->unmarshal($this->validationFailFile, ValidationIsArray::class);
-            // Reaching here, it never failed to validate
-            $this->fail();
-        }catch (ValidationException){}
+        $this->expectException(ValidationException::class);
+        $this->jsonMarshaller->unmarshal($this->validationFailFile, ValidationIsArray::class);
 
         /** @var ValidationIsArray $validationSuccess */
-        $validationSuccess = $this->JSON->unmarshal($this->validationSuccessFile, ValidationIsArray::class);
+        $validationSuccess = $this->jsonMarshaller->unmarshal($this->validationSuccessFile, ValidationIsArray::class);
 
         $this->assertEquals(["foo", "bar"], $validationSuccess->isArray);
     }
@@ -86,16 +80,13 @@ class ValidationTest extends BaseTestCase
      * @throws ReflectionException
      * @throws ValidationException
      */
-    public function it_validates_is_required() : void
+    public function it_validates_is_required(): void
     {
-        try {
-            $this->JSON->unmarshal($this->validationFailFile, ValidationRequired::class);
-            // Reaching here, it never failed to validate
-            $this->fail();
-        }catch (ValidationException){}
+        $this->expectException(ValidationException::class);
+        $this->jsonMarshaller->unmarshal($this->validationFailFile, ValidationRequired::class);
 
         /** @var ValidationRequired $validationSuccess */
-        $validationSuccess = $this->JSON->unmarshal($this->validationSuccessFile, ValidationRequired::class);
+        $validationSuccess = $this->jsonMarshaller->unmarshal($this->validationSuccessFile, ValidationRequired::class);
 
         $this->assertEquals("bar", $validationSuccess->required);
     }

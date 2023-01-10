@@ -2,6 +2,7 @@
 
 use Exception;
 
-abstract class JsonMarshallerException extends Exception{
+abstract class JsonMarshallerException extends Exception
+{
 
 }

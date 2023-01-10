@@ -1,6 +1,7 @@
 <?php namespace Tests\Data\Objects;
 
-class Address{
+class Address
+{
     public string $street;
     public int $number;
     public int $zip;

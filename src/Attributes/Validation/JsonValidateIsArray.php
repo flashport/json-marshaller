@@ -3,7 +3,8 @@
 use Attribute;
 
 #[Attribute]
-class IsArray implements ValidationAttribute {
+class JsonValidateIsArray implements ValidationAttribute
+{
 
     public function isValid(mixed &$value): bool
     {

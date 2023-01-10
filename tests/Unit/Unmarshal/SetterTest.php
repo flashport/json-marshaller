@@ -30,9 +30,9 @@ class SetterTest extends BaseTestCase
         $file = $this->getJsonFile("person.json");
 
         /** @var PersonWithProtectedName $person */
-        $person = $this->JSON->unmarshal($file, PersonWithProtectedName::class);
+        $person = $this->jsonMarshaller->unmarshal($file, PersonWithProtectedName::class);
 
-        $this->assertEquals("John Doe Modified", $person->getName());
+        $this->assertEquals("John Doe Setter Getter", $person->getName());
     }
 
     /**
@@ -44,15 +44,12 @@ class SetterTest extends BaseTestCase
      * @throws UnsupportedConversionException
      * @throws ValidationException
      */
-    public function it_fails_to_set_protected_value() : void
+    public function it_fails_to_set_protected_value(): void
     {
         $file = $this->getJsonFile("person.json");
 
-        try {
-            /** @var PersonWithoutSetter $person */
-            $this->JSON->unmarshal($file, PersonWithoutSetter::class);
-            $this->fail();
-        }catch (ValueAssignmentException){}
+        $this->expectException(ValueAssignmentException::class);
 
+        $this->jsonMarshaller->unmarshal($file, PersonWithoutSetter::class);
     }
 }

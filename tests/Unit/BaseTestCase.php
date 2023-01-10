@@ -1,22 +1,23 @@
 <?php namespace Tests\Unit;
 
-use JsonMarshaller\JSON;
+use JsonMarshaller\JsonMarshaller;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseTestCase extends TestCase{
+abstract class BaseTestCase extends TestCase
+{
 
-    protected JSON $JSON;
+    protected JsonMarshaller $jsonMarshaller;
 
-    public function setUp() : void
+    public function setUp(): void
     {
-        $this->JSON = new JSON();
+        $this->jsonMarshaller = new JsonMarshaller();
     }
 
     /**
      * @param string $filename
      * @return string
      */
-    protected function getJsonFile(string $filename) : string
+    protected function getJsonFile(string $filename): string
     {
         $path = join(DIRECTORY_SEPARATOR, [dirname(__FILE__), "..", "Data", "Files", $filename]);
         $this->assertFileExists($path);

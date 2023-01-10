@@ -27,15 +27,16 @@ class NestedObjectsTest extends BaseTestCase
      * @throws ValidationException
      * @throws ValueAssignmentException
      */
-    public function it_fails_to_infer_nested_object_type() : void
+    public function it_fails_to_infer_nested_object_type(): void
     {
         $file = $this->getJsonFile("person.json");
 
         try {
             /** @var PersonWithoutTypedProperties $person */
-            $this->JSON->unmarshal($file, PersonWithoutTypedProperties::class);
+            $this->jsonMarshaller->unmarshal($file, PersonWithoutTypedProperties::class);
             $this->fail();
-        }catch (MissingAttributeException){}
+        } catch (MissingAttributeException) {
+        }
     }
 
     /**
@@ -48,12 +49,12 @@ class NestedObjectsTest extends BaseTestCase
      * @throws MismatchingTypesException
      * @throws ReflectionException
      */
-    public function it_gets_nested_object_type_from_attribute() : void
+    public function it_gets_nested_object_type_from_attribute(): void
     {
         $file = $this->getJsonFile("person.json");
 
         /** @var PersonWithTypedAttribute $person */
-        $person = $this->JSON->unmarshal($file, PersonWithTypedAttribute::class);
+        $person = $this->jsonMarshaller->unmarshal($file, PersonWithTypedAttribute::class);
 
         $this->assertEquals(Address::class, get_class($person->address));
     }
@@ -73,7 +74,7 @@ class NestedObjectsTest extends BaseTestCase
         $file = $this->getJsonFile("person.json");
 
         /** @var Person $person */
-        $person = $this->JSON->unmarshal($file, Person::class);
+        $person = $this->jsonMarshaller->unmarshal($file, Person::class);
 
         $this->assertEquals(Address::class, get_class($person->address));
         $this->assertNotEmpty($person->address->street);
