@@ -37,15 +37,15 @@ class JsonMarshaller
     /**
      * @param string $json
      * @param string $targetClass
-     * @return object|array
+     * @return object|array|null
      * @throws MismatchingTypesException
      * @throws MissingAttributeException
-     * @throws UnsupportedConversionException
-     * @throws ValueAssignmentException
      * @throws ReflectionException
+     * @throws UnsupportedConversionException
      * @throws ValidationException
+     * @throws ValueAssignmentException
      */
-    public function unmarshal(string &$json, string $targetClass): object|array
+    public function unmarshal(string $json, string $targetClass): object|array|null
     {
         return $this->unmarshaller->unmarshal($json, $targetClass);
     }

@@ -18,7 +18,7 @@ class Unmarshaller extends BaseProcessor
     /**
      * @param string $json
      * @param string $targetClass
-     * @return object|array
+     * @return object|array|null
      * @throws MismatchingTypesException
      * @throws MissingAttributeException
      * @throws ReflectionException
@@ -26,24 +26,28 @@ class Unmarshaller extends BaseProcessor
      * @throws ValidationException
      * @throws ValueAssignmentException
      */
-    public function unmarshal(string $json, string $targetClass): object|array
+    public function unmarshal(string $json, string $targetClass): object|array|null
     {
         // Initial decoding
         $raw = json_decode($json);
+
         $reflectionClass = new ReflectionClass($targetClass);
 
         // Single item handling
         if (is_object($raw)) {
             return $this->handleUnmarshal($raw, $reflectionClass);
-        }
 
         // Array handling
-        $ret = [];
-        foreach ($raw as $item) {
-            $ret[] = $this->handleUnmarshal($item, $reflectionClass);
-        }
-        return $ret;
+        }else if(is_array($raw)) {
 
+            $ret = [];
+            foreach ($raw as $item) {
+                $ret[] = $this->handleUnmarshal($item, $reflectionClass);
+            }
+            return $ret;
+        }
+
+        return null;
     }
 
     /**
