@@ -2,6 +2,7 @@
 
 use JsonMarshaller\Attributes\JsonProperty;
 use JsonMarshaller\Exceptions\ValidationException;
+use JsonMarshaller\Resources\ScalarTypes;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -125,7 +126,8 @@ class Marshaller extends BaseProcessor
      */
     protected function getPropertyValue(object $object, ReflectionProperty $reflectionProperty): mixed
     {
-        $methodName = "get" . ucfirst($reflectionProperty->getName());
+        $methodPrefix = $reflectionProperty->getType()->getName() == ScalarTypes::BOOLEAN ? "is" : "get";
+        $methodName = $methodPrefix . ucfirst($reflectionProperty->getName());
         if (method_exists($object, $methodName)) {
             return $object->{$methodName}();
         } else if ($reflectionProperty->isPublic()) {
