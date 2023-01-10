@@ -30,6 +30,13 @@ class Person{
     // For array with scalar types
     #[JsonPropertyType(ScalarTypes::INTEGER)]
     public array $luckyNumbers;
+    
+    // The type can be inferred from the property, or from the attribute.
+    // At least one is required
+    public Address $billingAddress;
+    
+    #[JsonPropertyType(Address::class)]
+    public $shippingAddress;
 }
 ```
 
