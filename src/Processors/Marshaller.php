@@ -1,6 +1,7 @@
 <?php namespace JsonMarshaller\Processors;
 
 use JsonMarshaller\Attributes\JsonProperty;
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Resources\ScalarTypes;
 use ReflectionClass;
@@ -14,25 +15,31 @@ class Marshaller extends BaseProcessor
     /**
      * @param object|array $data
      * @return string
-     * @throws ValidationException
+     * @throws JsonMarshallerException
      * @throws ReflectionException
+     * @throws ValidationException
      */
     public function marshal(object|array $data): string
     {
-        // Single item handling
-        if (is_object($data)) {
-            $reflectionClass = new ReflectionClass($data);
-            return json_encode($this->handleMarshal($data, $reflectionClass));
-        }
+        try {
+            // Single item handling
+            if (is_object($data)) {
+                $reflectionClass = new ReflectionClass($data);
+                return json_encode($this->handleMarshal($data, $reflectionClass));
+            }
 
-        // Array handling
-        $ret = [];
-        foreach ($data as $item) {
-            $reflectionClass = new ReflectionClass($data[0]);
-            $ret[] = $this->handleMarshal($item, $reflectionClass);
-        }
+            // Array handling
+            $ret = [];
+            foreach ($data as $item) {
+                $reflectionClass = new ReflectionClass($data[0]);
+                $ret[] = $this->handleMarshal($item, $reflectionClass);
+            }
 
-        return json_encode($ret);
+            return json_encode($ret);
+
+        }catch(JsonMarshallerException $e){
+            return $this->shouldReturnNullOnErrors() ? "" : throw $e;
+        }
     }
 
 
@@ -132,6 +139,8 @@ class Marshaller extends BaseProcessor
             return $object->{$methodName}();
         } else if ($reflectionProperty->isPublic()) {
             return $object->{$reflectionProperty->getName()} ?? null;
+        }else if($this->shouldAccessPrivateProperties()){
+            return $this->getPrivatePropertyValue($object, $reflectionProperty);
         }
 
         return null;

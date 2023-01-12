@@ -2,6 +2,8 @@
 
 use JsonMarshaller\Attributes\JsonProperty;
 use JsonMarshaller\Attributes\JsonPropertyType;
+use JsonMarshaller\Exceptions\InvalidFlagException;
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\MismatchingTypesException;
 use JsonMarshaller\Exceptions\MissingAttributeException;
 use JsonMarshaller\Exceptions\UnsupportedConversionException;
@@ -19,6 +21,7 @@ class Unmarshaller extends BaseProcessor
      * @param string $json
      * @param string $targetClass
      * @return object|array|null
+     * @throws JsonMarshallerException
      * @throws MismatchingTypesException
      * @throws MissingAttributeException
      * @throws ReflectionException
@@ -28,26 +31,30 @@ class Unmarshaller extends BaseProcessor
      */
     public function unmarshal(string $json, string $targetClass): object|array|null
     {
-        // Initial decoding
-        $raw = json_decode($json);
+        try {
+            // Initial decoding
+            $raw = json_decode($json);
 
-        $reflectionClass = new ReflectionClass($targetClass);
+            $reflectionClass = new ReflectionClass($targetClass);
 
-        // Single item handling
-        if (is_object($raw)) {
-            return $this->handleUnmarshal($raw, $reflectionClass);
+            // Single item handling
+            if (is_object($raw)) {
+                return $this->handleUnmarshal($raw, $reflectionClass);
 
-        // Array handling
-        }else if(is_array($raw)) {
+                // Array handling
+            } else if (is_array($raw)) {
 
-            $ret = [];
-            foreach ($raw as $item) {
-                $ret[] = $this->handleUnmarshal($item, $reflectionClass);
+                $ret = [];
+                foreach ($raw as $item) {
+                    $ret[] = $this->handleUnmarshal($item, $reflectionClass);
+                }
+                return $ret;
             }
-            return $ret;
-        }
 
-        return null;
+            return null;
+        }catch(JsonMarshallerException $e){
+            return $this->shouldReturnNullOnErrors() ? null : throw $e;
+        }
     }
 
     /**

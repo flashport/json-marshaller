@@ -1,6 +1,7 @@
 <?php namespace JsonMarshaller;
 
 use JsonMarshaller\Exceptions\MismatchingTypesException;
+use JsonMarshaller\Exceptions\InvalidFlagException;
 use JsonMarshaller\Exceptions\MissingAttributeException;
 use JsonMarshaller\Exceptions\UnsupportedConversionException;
 use JsonMarshaller\Exceptions\ValidationException;
@@ -16,10 +17,14 @@ class JsonMarshaller
 
     protected Unmarshaller $unmarshaller;
 
-    public function __construct()
+    /**
+     * @param string ...$flags
+     * @throws InvalidFlagException
+     */
+    public function __construct(string ...$flags)
     {
-        $this->marshaller = new Marshaller();
-        $this->unmarshaller = new Unmarshaller();
+        $this->marshaller = new Marshaller(...$flags);
+        $this->unmarshaller = new Unmarshaller(...$flags);
     }
 
 

@@ -1,6 +1,7 @@
 <?php namespace Tests\Unit;
 
 use JsonMarshaller\JsonMarshaller;
+use JsonMarshaller\JsonMarshallerFlags;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTestCase extends TestCase

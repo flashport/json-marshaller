@@ -1,12 +1,28 @@
 <?php namespace JsonMarshaller\Processors;
 
+use Closure;
 use JsonMarshaller\Attributes\JsonIgnore;
 use JsonMarshaller\Attributes\Validation\ValidationAttribute;
+use JsonMarshaller\Exceptions\InvalidFlagException;
 use JsonMarshaller\Exceptions\ValidationException;
+use JsonMarshaller\JsonMarshallerFlags;
+use JsonMarshaller\Processors\Traits\UsesFlags;
 use ReflectionProperty;
 
 abstract class BaseProcessor
 {
+
+    use UsesFlags;
+
+    /**
+     * @param string ...$flags
+     * @throws InvalidFlagException
+     */
+    public function __construct(string ...$flags)
+    {
+        $this->setFlags(...$flags);
+    }
+
     /**
      * @param ReflectionProperty $reflectionProperty
      * @param string $attributeClass
@@ -50,11 +66,43 @@ abstract class BaseProcessor
     }
 
     /**
+     * @param object $object
+     * @param ReflectionProperty $reflectionProperty
+     * @return mixed
+     */
+    protected function getPrivatePropertyValue(object $object, ReflectionProperty $reflectionProperty) : mixed
+    {
+        $getter = function(object $object, ReflectionProperty $reflectionProperty){
+            return $object->{$reflectionProperty->getName()};
+        };
+
+        $getter = Closure::bind($getter, null, $object);
+
+        return $getter($object, $reflectionProperty);
+    }
+
+    /**
      * @param ReflectionProperty $reflectionProperty
      * @return bool
      */
     protected function shouldIgnoreProperty(ReflectionProperty $reflectionProperty): bool
     {
         return !!$this->getReflectedPropertyAttribute($reflectionProperty, JsonIgnore::class);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldReturnNullOnErrors() : bool
+    {
+        return $this->hasFlag(JsonMarshallerFlags::RETURN_NULL_ON_ERROR);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldAccessPrivateProperties() : bool
+    {
+        return $this->hasFlag(JsonMarshallerFlags::ACCESS_PRIVATE_PROPERTIES);
     }
 }
