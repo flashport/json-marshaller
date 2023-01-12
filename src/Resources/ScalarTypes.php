@@ -2,7 +2,7 @@
 
 class ScalarTypes
 {
-    const BOOLEAN = "boolean";
+    const BOOLEAN = "bool";
     const INTEGER = "integer";
     const FLOAT = "float";
     const STRING = "string";
