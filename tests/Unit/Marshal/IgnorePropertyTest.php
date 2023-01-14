@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
 use Tests\Data\Objects\PersonWithIgnoredProperty;
-use Tests\Data\Objects\PersonWithNamedProperty;
 use Tests\Unit\BaseTestCase;
 
 class IgnorePropertyTest extends BaseTestCase
@@ -15,8 +15,9 @@ class IgnorePropertyTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
      * @throws ReflectionException
+     * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_marshals_nested_objects_with_ignored_properties(): void
     {

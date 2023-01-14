@@ -10,10 +10,8 @@ use JsonMarshaller\Exceptions\ValueAssignmentException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
 use Tests\Data\Objects\Person;
-use Tests\Data\Objects\PersonWithNamedProperty;
 use Tests\Data\Objects\PersonWithoutTypedProperties;
 use Tests\Data\Objects\PersonWithTypedAttribute;
-use Tests\Data\Objects\Scalars;
 use Tests\Unit\BaseTestCase;
 
 class NestedObjectsTest extends BaseTestCase

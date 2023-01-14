@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
-use Tests\Data\Objects\Scalars;
 use Tests\Data\Objects\Validation\ValidationEquals;
 use Tests\Data\Objects\Validation\ValidationIsArray;
 use Tests\Data\Objects\Validation\ValidationRequired;
@@ -16,8 +16,9 @@ class ValidationTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
      * @throws ReflectionException
+     * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_validates_equals(): void
     {
@@ -32,8 +33,9 @@ class ValidationTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
+     * @throws JsonMarshallerException
      * @throws ReflectionException
+     * @throws ValidationException
      */
     public function it_validates_is_array(): void
     {
@@ -45,8 +47,9 @@ class ValidationTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
+     * @throws JsonMarshallerException
      * @throws ReflectionException
+     * @throws ValidationException
      */
     public function it_validates_required(): void
     {

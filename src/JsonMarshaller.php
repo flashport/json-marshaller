@@ -1,5 +1,6 @@
 <?php namespace JsonMarshaller;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\MismatchingTypesException;
 use JsonMarshaller\Exceptions\InvalidFlagException;
 use JsonMarshaller\Exceptions\MissingAttributeException;
@@ -29,12 +30,13 @@ class JsonMarshaller
 
 
     /**
-     * @param object $object
+     * @param array|object $object $object
      * @return string
+     * @throws JsonMarshallerException
      * @throws ReflectionException
      * @throws ValidationException
      */
-    public function marshal(object $object): string
+    public function marshal(array|object $object): string
     {
         return $this->marshaller->marshal($object);
     }

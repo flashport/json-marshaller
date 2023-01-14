@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
@@ -14,8 +15,9 @@ class NamedPropertyTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
      * @throws ReflectionException
+     * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_marshals_nested_objects_with_named_properties(): void
     {

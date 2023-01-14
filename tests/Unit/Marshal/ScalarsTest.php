@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Scalars;
@@ -13,8 +14,9 @@ class ScalarsTest extends BaseTestCase
     /**
      * @test
      * @return void
-     * @throws ValidationException
      * @throws ReflectionException
+     * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_marshals_scalars(): void
     {

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
@@ -42,6 +43,7 @@ class NestedObjectsTest extends BaseTestCase
      * @return void
      * @throws ReflectionException
      * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_marshals_nested_objects(): void
     {

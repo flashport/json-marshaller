@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Marshal;
 
+use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\JsonMarshaller;
 use JsonMarshaller\JsonMarshallerFlags;
@@ -50,6 +51,7 @@ class GetterTest extends BaseTestCase
     /**
      * @test
      * @return void
+     * @throws JsonMarshallerException
      * @throws ReflectionException
      * @throws ValidationException
      */
@@ -66,11 +68,13 @@ class GetterTest extends BaseTestCase
 
         $this->assertNotEmpty(property_exists($rawDecoded, 'active') ? $rawDecoded->active : null);
     }
+
     /**
      * @test
      * @return void
      * @throws ReflectionException
      * @throws ValidationException
+     * @throws JsonMarshallerException
      */
     public function it_has_access_to_private_properties(): void
     {

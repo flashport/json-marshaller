@@ -11,7 +11,6 @@ use JsonMarshaller\JsonMarshaller;
 use JsonMarshaller\JsonMarshallerFlags;
 use ReflectionException;
 use Tests\Data\Objects\PersonWithoutSetter;
-use Tests\Data\Objects\PersonWithProtectedName;
 use Tests\Unit\BaseTestCase;
 
 class NullOnErrorFlagTest extends BaseTestCase
