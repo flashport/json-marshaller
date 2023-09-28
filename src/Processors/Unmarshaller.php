@@ -217,7 +217,13 @@ class Unmarshaller extends BaseProcessor
     {
         $methodName = "set" . ucfirst($reflectionProperty->getName());
         if (method_exists($ret, $methodName)) {
+            
+            if($reflectionProperty->getType() && enum_exists($reflectionProperty->getType()->getName())){
+                $value = $reflectionProperty->getType()->getName()::from($value);
+            }
+            
             $ret->{$methodName}($value);
+            
         } else if ($reflectionProperty->isPublic()) {
             
             if($reflectionProperty->getType() && enum_exists($reflectionProperty->getType()->getName())){

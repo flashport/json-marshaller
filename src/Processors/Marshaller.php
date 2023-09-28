@@ -136,7 +136,8 @@ class Marshaller extends BaseProcessor
         $methodPrefix = $reflectionProperty->getType()->getName() == ScalarTypes::BOOLEAN ? "is" : "get";
         $methodName = $methodPrefix . ucfirst($reflectionProperty->getName());
         if (method_exists($object, $methodName)) {
-            return $object->{$methodName}();
+            $ret =  $object->{$methodName}();
+            return is_object($ret) && enum_exists($ret::class) ? $ret->value : $ret;
         } else if ($reflectionProperty->isPublic()) {
             
             if(enum_exists($reflectionProperty->getType()->getName())){
