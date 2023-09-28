@@ -138,6 +138,11 @@ class Marshaller extends BaseProcessor
         if (method_exists($object, $methodName)) {
             return $object->{$methodName}();
         } else if ($reflectionProperty->isPublic()) {
+            
+            if(enum_exists($reflectionProperty->getType()->getName())){
+                return $object->{$reflectionProperty->getName()}->value;
+            }
+            
             return $object->{$reflectionProperty->getName()} ?? null;
         }else if($this->shouldAccessPrivateProperties()){
             return $this->getPrivatePropertyValue($object, $reflectionProperty);

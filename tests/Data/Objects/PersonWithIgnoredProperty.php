@@ -8,9 +8,11 @@ class PersonWithIgnoredProperty
     public string $name;
 
     public string $emailAddress;
+    
+    public Gender $gender;
 
     public Address $address;
 
     #[JsonIgnore]
-    public string $gender;
+    public string $age;
 }

@@ -1,6 +1,7 @@
 {
   "name": "John Doe",
   "emailAddress": "john.doe@email.com",
+  "gender": "male",
   "address": {
     "street": "Nice Street",
     "number": 10,

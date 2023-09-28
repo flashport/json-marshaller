@@ -9,6 +9,8 @@ class PersonWithNamedProperty
 
     #[JsonProperty("emailAddress")]
     public string $email;
+    
+    public Gender $gender;
 
     public Address $address;
 }

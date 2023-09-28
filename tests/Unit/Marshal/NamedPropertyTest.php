@@ -6,6 +6,7 @@ use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
+use Tests\Data\Objects\Gender;
 use Tests\Data\Objects\PersonWithNamedProperty;
 use Tests\Unit\BaseTestCase;
 
@@ -31,6 +32,7 @@ class NamedPropertyTest extends BaseTestCase
         $person->name = "John Doe";
         $person->email = "john.doe@email.com";
         $person->address = $address;
+        $person->gender = Gender::MALE;
 
         $json = $this->jsonMarshaller->marshal($person);
 

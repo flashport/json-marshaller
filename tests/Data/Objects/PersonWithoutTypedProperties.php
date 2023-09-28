@@ -10,4 +10,6 @@ class PersonWithoutTypedProperties
     public $emailAddress;
 
     public $address;
+    
+    public $gender;
 }

@@ -6,6 +6,7 @@ use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
+use Tests\Data\Objects\Gender;
 use Tests\Data\Objects\Person;
 use Tests\Unit\BaseTestCase;
 
@@ -34,6 +35,7 @@ class NestedObjectsTest extends BaseTestCase
         $person->name = "John Doe";
         $person->emailAddress = "john.doe@email.com";
         $person->address = $this->createTestAddress();
+        $person->gender = Gender::MALE;
 
         return $person;
     }

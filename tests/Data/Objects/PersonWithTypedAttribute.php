@@ -13,4 +13,6 @@ class PersonWithTypedAttribute
 
     #[JsonPropertyType(Address::class)]
     public $address;
+    
+    public $gender;
 }

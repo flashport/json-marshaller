@@ -9,6 +9,7 @@ use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Exceptions\ValueAssignmentException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
+use Tests\Data\Objects\Gender;
 use Tests\Data\Objects\Person;
 use Tests\Data\Objects\PersonWithoutTypedProperties;
 use Tests\Data\Objects\PersonWithTypedAttribute;
@@ -79,5 +80,6 @@ class NestedObjectsTest extends BaseTestCase
         $this->assertNotEmpty($person->address->number);
         $this->assertNotEmpty($person->address->zip);
         $this->assertNotEmpty($person->address->city);
+        $this->assertEquals(Gender::MALE, $person->gender);
     }
 }

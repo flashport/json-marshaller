@@ -73,6 +73,11 @@ abstract class BaseProcessor
     protected function getPrivatePropertyValue(object $object, ReflectionProperty $reflectionProperty) : mixed
     {
         $getter = function(object $object, ReflectionProperty $reflectionProperty){
+            
+            if(enum_exists($reflectionProperty->getType()->getName())) {
+                return $object->{$reflectionProperty->getName()}->getValue();
+            }
+            
             return $object->{$reflectionProperty->getName()};
         };
 

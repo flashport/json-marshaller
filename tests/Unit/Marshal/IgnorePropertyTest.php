@@ -6,6 +6,7 @@ use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use ReflectionException;
 use Tests\Data\Objects\Address;
+use Tests\Data\Objects\Gender;
 use Tests\Data\Objects\PersonWithIgnoredProperty;
 use Tests\Unit\BaseTestCase;
 
@@ -31,8 +32,9 @@ class IgnorePropertyTest extends BaseTestCase
         $person->name = "John Doe";
         $person->emailAddress = "john.doe@email.com";
         $person->address = $address;
+        $person->gender = Gender::MALE;
         // This property should be ignored
-        $person->gender = "U";
+        $person->age = 30;
 
         $json = $this->jsonMarshaller->marshal($person);
 

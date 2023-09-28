@@ -205,7 +205,7 @@ class Unmarshaller extends BaseProcessor
 
         $this->setValueOnProperty($reflectionProperty, $value, $ret);
     }
-
+    
     /**
      * @param ReflectionProperty $reflectionProperty
      * @param mixed $value
@@ -219,7 +219,13 @@ class Unmarshaller extends BaseProcessor
         if (method_exists($ret, $methodName)) {
             $ret->{$methodName}($value);
         } else if ($reflectionProperty->isPublic()) {
+            
+            if($reflectionProperty->getType() && enum_exists($reflectionProperty->getType()->getName())){
+                $value = $reflectionProperty->getType()->getName()::from($value);
+            }
+            
             $ret->{$reflectionProperty->getName()} = $value;
+            
         } else {
             throw new ValueAssignmentException("Property {$reflectionProperty->getName()} is not public and there is no method called $methodName available.");
         }

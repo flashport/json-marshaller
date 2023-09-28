@@ -6,6 +6,8 @@ class Person
     public string $name;
 
     public string $emailAddress;
+    
+    public Gender $gender;
 
     public Address $address;
 }
