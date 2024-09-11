@@ -2,6 +2,7 @@
 
 use JsonMarshaller\Attributes\JsonProperty;
 use JsonMarshaller\Attributes\JsonPropertyType;
+use JsonMarshaller\Attributes\JsonUnmarshalBypass;
 use JsonMarshaller\Exceptions\InvalidFlagException;
 use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\MismatchingTypesException;
@@ -120,8 +121,8 @@ class Unmarshaller extends BaseProcessor
      * @throws ValueAssignmentException
      */
     protected function handleValueAssignment(ReflectionProperty $reflectionProperty, mixed &$rawValue, object $ret): void
-    {
-        if (is_scalar($rawValue)) {
+    {;
+        if (is_scalar($rawValue) || $this->shouldBypassProperty($reflectionProperty)) {
             $this->setValueOnProperty($reflectionProperty, $rawValue, $ret);
         } else if (is_array($rawValue)) {
             $this->setArrayOnProperty($reflectionProperty, $rawValue, $ret);
@@ -218,6 +219,7 @@ class Unmarshaller extends BaseProcessor
         $methodName = "set" . ucfirst($reflectionProperty->getName());
         if (method_exists($ret, $methodName)) {
             
+            // If it is an enum
             if($reflectionProperty->getType() && enum_exists($reflectionProperty->getType()->getName())){
                 $value = $reflectionProperty->getType()->getName()::from($value);
             }
@@ -235,6 +237,15 @@ class Unmarshaller extends BaseProcessor
         } else {
             throw new ValueAssignmentException("Property {$reflectionProperty->getName()} is not public and there is no method called $methodName available.");
         }
+    }
+    
+    /**
+     * @param ReflectionProperty $reflectionProperty
+     * @return bool
+     */
+    protected function shouldBypassProperty(ReflectionProperty $reflectionProperty): bool
+    {
+        return !!$this->getReflectedPropertyAttribute($reflectionProperty, JsonUnmarshalBypass::class);
     }
 
 }

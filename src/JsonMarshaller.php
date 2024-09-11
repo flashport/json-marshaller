@@ -40,11 +40,12 @@ class JsonMarshaller
     {
         return $this->marshaller->marshal($object);
     }
-
+    
     /**
      * @param string $json
      * @param string $targetClass
      * @return object|array|null
+     * @throws JsonMarshallerException
      * @throws MismatchingTypesException
      * @throws MissingAttributeException
      * @throws ReflectionException
