@@ -35,13 +35,6 @@ class Unmarshaller extends BaseProcessor
     {
         try {
             
-            // if the target class implements JsonUnserializable, we can just return the json decoded data
-            if(in_array(JsonUnserializable::class, class_implements($targetClass))){
-                /** @var JsonUnserializable $targetClass */
-                return $targetClass::jsonUnserialize($json);
-            }
-            
-            
             // Initial decoding
             $raw = json_decode($json);
 
@@ -80,6 +73,12 @@ class Unmarshaller extends BaseProcessor
      */
     protected function handleUnmarshal(stdClass $raw, ReflectionClass $reflectionClass): object
     {
+        
+        // If the class implements JsonUnserializable, we can call it instead of the default unmarshalling
+        if(in_array(JsonUnserializable::class, $reflectionClass->getInterfaceNames())){
+            return $reflectionClass->getName()::jsonUnserialize(json_encode($raw));
+        }
+        
         $ret = $reflectionClass->newInstanceWithoutConstructor();
         $properties = $reflectionClass->getProperties();
 
