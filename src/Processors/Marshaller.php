@@ -4,6 +4,7 @@ use JsonMarshaller\Attributes\JsonProperty;
 use JsonMarshaller\Exceptions\JsonMarshallerException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Resources\ScalarTypes;
+use JsonSerializable;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -24,6 +25,12 @@ class Marshaller extends BaseProcessor
         try {
             // Single item handling
             if (is_object($data)) {
+                
+                // If the $data implements JsonSerializable, we can just return the json encoded data
+                if($data instanceof JsonSerializable){
+                    return $data->jsonSerialize();
+                }
+                
                 $reflectionClass = new ReflectionClass($data);
                 return json_encode($this->handleMarshal($data, $reflectionClass));
             }

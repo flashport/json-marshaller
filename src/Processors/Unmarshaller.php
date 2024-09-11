@@ -10,6 +10,7 @@ use JsonMarshaller\Exceptions\MissingAttributeException;
 use JsonMarshaller\Exceptions\UnsupportedConversionException;
 use JsonMarshaller\Exceptions\ValidationException;
 use JsonMarshaller\Exceptions\ValueAssignmentException;
+use JsonMarshaller\Interfaces\JsonUnserializable;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -33,6 +34,14 @@ class Unmarshaller extends BaseProcessor
     public function unmarshal(string $json, string $targetClass): object|array|null
     {
         try {
+            
+            // if the target class implements JsonUnserializable, we can just return the json decoded data
+            if(in_array(JsonUnserializable::class, class_implements($targetClass))){
+                /** @var JsonUnserializable $targetClass */
+                return $targetClass::jsonUnserialize($json);
+            }
+            
+            
             // Initial decoding
             $raw = json_decode($json);
 
