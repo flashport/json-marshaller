@@ -12,7 +12,7 @@ use stdClass;
 
 class Marshaller extends BaseProcessor
 {
-
+    
     /**
      * @param object|array $data
      * @return string
@@ -23,33 +23,33 @@ class Marshaller extends BaseProcessor
     public function marshal(object|array $data): string
     {
         try {
+            
+            // Bypass handling
+            if($data instanceof JsonSerializable){
+                return $data->jsonSerialize();
+            }
+            
             // Single item handling
             if (is_object($data)) {
-                
-                // If the $data implements JsonSerializable, we can just return the json encoded data
-                if($data instanceof JsonSerializable){
-                    return $data->jsonSerialize();
-                }
-                
                 $reflectionClass = new ReflectionClass($data);
                 return json_encode($this->handleMarshal($data, $reflectionClass));
             }
-
+            
             // Array handling
             $ret = [];
             foreach ($data as $item) {
                 $reflectionClass = new ReflectionClass($data[0]);
                 $ret[] = $this->handleMarshal($item, $reflectionClass);
             }
-
+            
             return json_encode($ret);
-
-        }catch(JsonMarshallerException $e){
+            
+        } catch (JsonMarshallerException $e) {
             return $this->shouldReturnNullOnErrors() ? "" : throw $e;
         }
     }
-
-
+    
+    
     /**
      * @param object $object
      * @param ReflectionClass $reflectionClass
@@ -60,34 +60,33 @@ class Marshaller extends BaseProcessor
     protected function handleMarshal(object $object, ReflectionClass $reflectionClass): object
     {
         $shadow = new stdClass();
-
+        
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
-
-            if($this->shouldIgnoreProperty($reflectionProperty)){
+            
+            if ($this->shouldIgnoreProperty($reflectionProperty)) {
                 continue;
             }
             
             $propertyName = $this->getPropertyName($reflectionProperty);
             $propertyValue = $this->getPropertyValue($object, $reflectionProperty);
-
+            
             $this->validateReflectedProperty($reflectionProperty, $propertyValue);
-
+            
             if (empty($propertyValue)) {
                 continue;
-            }
-
-            if (is_object($propertyValue)) {
+            } else if ($propertyValue instanceof JsonSerializable) {
+                $shadow->{$propertyName} = json_decode($propertyValue->jsonSerialize());
+            } else if (is_object($propertyValue)) {
                 $this->setObjectOnProperty($propertyName, $propertyValue, $shadow);
-            }else if(is_array($propertyValue)){
+            } else if (is_array($propertyValue)) {
                 $this->setArrayOnProperty($propertyName, $propertyValue, $shadow);
             } else {
                 $shadow->{$propertyName} = $propertyValue;
             }
         }
-
         return $shadow;
     }
-
+    
     /**
      * @param string $propertyName
      * @param object $propertyValue
@@ -96,11 +95,11 @@ class Marshaller extends BaseProcessor
      * @throws ReflectionException
      * @throws ValidationException
      */
-    protected function setObjectOnProperty(string $propertyName, object $propertyValue, stdClass $shadow) : void
+    protected function setObjectOnProperty(string $propertyName, object $propertyValue, stdClass $shadow): void
     {
         $shadow->{$propertyName} = $this->handleMarshal($propertyValue, new ReflectionClass($propertyValue));
     }
-
+    
     /**
      * @param string $propertyName
      * @param array $propertyValue
@@ -109,18 +108,18 @@ class Marshaller extends BaseProcessor
      * @throws ReflectionException
      * @throws ValidationException
      */
-    protected function setArrayOnProperty(string $propertyName, array $propertyValue, stdClass $shadow) : void
+    protected function setArrayOnProperty(string $propertyName, array $propertyValue, stdClass $shadow): void
     {
         $arr = [];
-        foreach($propertyValue as $item){
+        foreach ($propertyValue as $item) {
             $arr[] = is_object($item) ?
                 $this->handleMarshal($item, new ReflectionClass($item)) :
                 $item;
         }
-
+        
         $shadow->{$propertyName} = $arr;
     }
-
+    
     /**
      * @param ReflectionProperty $reflectionProperty
      * @return string
@@ -129,10 +128,10 @@ class Marshaller extends BaseProcessor
     {
         /** @var JsonProperty $jsonProperty */
         $jsonProperty = $this->getReflectedPropertyAttribute($reflectionProperty, JsonProperty::class);
-
+        
         return $jsonProperty?->getName() ?? $reflectionProperty->getName();
     }
-
+    
     /**
      * @param object $object
      * @param ReflectionProperty $reflectionProperty
@@ -143,20 +142,19 @@ class Marshaller extends BaseProcessor
         $methodPrefix = $reflectionProperty->getType()->getName() == ScalarTypes::BOOLEAN ? "is" : "get";
         $methodName = $methodPrefix . ucfirst($reflectionProperty->getName());
         if (method_exists($object, $methodName)) {
-            $ret =  $object->{$methodName}();
+            $ret = $object->{$methodName}();
             return is_object($ret) && enum_exists($ret::class) ? $ret->value : $ret;
         } else if ($reflectionProperty->isPublic()) {
             
-            if(enum_exists($reflectionProperty->getType()->getName())){
+            if (enum_exists($reflectionProperty->getType()->getName())) {
                 return $object->{$reflectionProperty->getName()}->value;
             }
             
             return $object->{$reflectionProperty->getName()} ?? null;
-        }else if($this->shouldAccessPrivateProperties()){
+        } else if ($this->shouldAccessPrivateProperties()) {
             return $this->getPrivatePropertyValue($object, $reflectionProperty);
         }
-
+        
         return null;
     }
-
 }
