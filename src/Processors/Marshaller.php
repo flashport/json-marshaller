@@ -110,14 +110,13 @@ class Marshaller extends BaseProcessor
      */
     protected function setArrayOnProperty(string $propertyName, array $propertyValue, stdClass $shadow): void
     {
-        $arr = [];
-        foreach ($propertyValue as $item) {
-            $arr[] = is_object($item) ?
-                $this->handleMarshal($item, new ReflectionClass($item)) :
-                $item;
+        foreach($propertyValue as &$item){
+            if(is_object($item)){
+                $item = $this->handleMarshal($item, new ReflectionClass($item));
+            }
         }
         
-        $shadow->{$propertyName} = $arr;
+        $shadow->{$propertyName} = $propertyValue;
     }
     
     /**
